@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>العد التنازلي</title>
+    <style>
+      body {
+        font-family: "Cairo", Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #232526, #414345);
+        color: #fff;
+      }
+
+      .timer {
+        display: grid;
+        grid-template-columns: repeat(5, auto);
+        gap: 15px;
+        text-align: center;
+      }
+
+      .timer div {
+        background: #1f1f1f;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        text-align: center;
+        min-width: 100px;
+        position: relative;
+      }
+
+      .timer div span {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #0ff;
+        display: block;
+      }
+
+      .label {
+        font-size: 1rem;
+        color: #aaa;
+        margin-top: 5px;
+      }
+
+      .timer div:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle,
+          rgba(0, 255, 255, 0.1),
+          transparent
+        );
+        border-radius: 10px;
+        z-index: -1;
+      }
+
+      @media (max-width: 768px) {
+        .timer {
+          grid-template-columns: repeat(3, auto);
+          gap: 10px;
+        }
+
+        .timer div {
+          min-width: 80px;
+          padding: 15px;
+        }
+
+        .timer div span {
+          font-size: 2rem;
+        }
+
+        .label {
+          font-size: 0.9rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .timer {
+          grid-template-columns: 1fr;
+        }
+
+        .timer div {
+          min-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="timer">
+      <div>
+        <span id="days">0</span>
+        <div class="label">يوم</div>
+      </div>
+      <div>
+        <span id="hours">00</span>
+        <div class="label">ساعة</div>
+      </div>
+      <div>
+        <span id="minutes">00</span>
+        <div class="label">دقيقة</div>
+      </div>
+      <div>
+        <span id="seconds">00</span>
+        <div class="label">ثانية</div>
+      </div>
+      <div>
+        <span id="milliseconds">000</span>
+        <div class="label">ملي ثانية</div>
+      </div>
+    </div>
+
+    <script>
+      function updateCountdown() {
+        const endDate = new Date("December 11, 2024 00:00:00").getTime();
+        const now = new Date().getTime();
+        const timeLeft = endDate - now;
+
+        if (timeLeft > 0) {
+          const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor(
+            (timeLeft % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+          const milliseconds = Math.floor(timeLeft % 1000);
+
+          document.getElementById("days").innerText = days;
+          document.getElementById("hours").innerText = hours
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("minutes").innerText = minutes
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("seconds").innerText = seconds
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("milliseconds").innerText = milliseconds
+            .toString()
+            .padStart(3, "0");
+        } else {
+          clearInterval(countdownInterval);
+          document.querySelector(".timer").innerText = "انتهى العد التنازلي!";
+        }
+      }
+
+      const countdownInterval = setInterval(updateCountdown, 10); // تحديث كل 10 ملي ثانية
+      updateCountdown(); // التحديث فورًا عند التحميل
+    </script>
+  </body>
+</html>
